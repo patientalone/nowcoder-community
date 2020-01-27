@@ -2,8 +2,10 @@ package com.nowcoder.community;
 
 
 import com.nowcoder.community.dao.DiscussPostMapper;
+import com.nowcoder.community.dao.LoginTicketMapper;
 import com.nowcoder.community.dao.UserMapper;
 import com.nowcoder.community.entity.DiscussPost;
+import com.nowcoder.community.entity.LoginTicket;
 import com.nowcoder.community.entity.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.sql.SQLOutput;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -24,6 +27,8 @@ public class MapperTest {
     private UserMapper userMapper;
     @Autowired
     private DiscussPostMapper discussPostMapper;
+    @Autowired
+    private LoginTicketMapper loginTicketMapper;
     @Test
     public  void testSelectUser(){
         User user=userMapper.selectById(101);
@@ -68,5 +73,25 @@ public class MapperTest {
         }
         System.out.println(discussPostMapper.selectDiscussPostRows(149));
     }
-
+    @Test
+    public void testInsertTicket(){
+        LoginTicket loginTicket=new LoginTicket();
+        loginTicket.setUserId(101);
+        loginTicket.setStatus(0);
+        loginTicket.setExpired(new Date(System.currentTimeMillis()+1000*60*10));
+        loginTicket.setTicket("123");
+        loginTicketMapper.insertLoginTicket(loginTicket);
+    }
+    @Test
+    public void testSelectTicket(){
+        String ticket="123";
+        String res=loginTicketMapper.selectByTicket(ticket).toString();
+        System.out.println(res);
+    }
+    @Test
+    public void testUpdateTicket(){
+        String ticket="123";
+        int status=1;
+        loginTicketMapper.updateStatus(ticket,status);
+    }
 }
