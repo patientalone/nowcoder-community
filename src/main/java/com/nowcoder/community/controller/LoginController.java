@@ -4,6 +4,7 @@ import com.google.code.kaptcha.Producer;
 import com.nowcoder.community.entity.User;
 import com.nowcoder.community.service.UserService;
 import com.nowcoder.community.util.CommunityConstant;
+import com.nowcoder.community.util.HostHolder;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +35,10 @@ public class LoginController implements CommunityConstant {
 
     @Autowired
     private Producer kaptchaProducer;
+
+
+    @Autowired
+    private HostHolder hostHolder;
 
     @Value("${server.servlet.context-path}")
     String contextPath;
@@ -125,6 +130,7 @@ public class LoginController implements CommunityConstant {
     @RequestMapping(path = "/logout",method = RequestMethod.GET)
     public String logout(@CookieValue("ticket")String ticket){
         userService.logout(ticket);
+        hostHolder.clear();
         return "/site/login";
     }
 }
