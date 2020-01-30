@@ -94,4 +94,17 @@ public class MapperTest {
         int status=1;
         loginTicketMapper.updateStatus(ticket,status);
     }
+    @Test
+    public void testInsertDiscussPort(){
+        DiscussPost discussPost=new DiscussPost();
+        discussPost.setTitle("title");
+        discussPost.setCommentCount(0);
+        discussPost.setCreateTime(new Date());
+        discussPost.setUserId(153);
+        discussPost.setScore(10.0);
+        discussPost.setType(1);
+        discussPost.setStatus(1);
+        discussPost.setContent("好好好");
+        discussPostMapper.insertDiscussPost(discussPost);
+    }
 }

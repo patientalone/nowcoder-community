@@ -2,8 +2,10 @@ package com.nowcoder.community.service;
 
 import com.nowcoder.community.dao.DiscussPostMapper;
 import com.nowcoder.community.entity.DiscussPost;
+import com.nowcoder.community.util.SensitiveWordFilterUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.HtmlUtils;
 
 import java.util.List;
 
@@ -11,11 +13,30 @@ import java.util.List;
 public class DiscussPostService {
     @Autowired
     private DiscussPostMapper discussPostMapper;
+    @Autowired
+    private SensitiveWordFilterUtil sensitiveWordFilterUtil;
 
-    public List<DiscussPost> findDiscussPosts(int userId, int offset, int limit){
-        return  discussPostMapper.selectDiscussPosts(userId,offset,limit);
+    public List<DiscussPost> findDiscussPosts(int userId, int offset, int limit) {
+        return discussPostMapper.selectDiscussPosts(userId, offset, limit);
     }
-    public int findDiscussPostRows(int userId){
+
+    public int findDiscussPostRows(int userId) {
         return discussPostMapper.selectDiscussPostRows(userId);
+    }
+
+    public int insertDiscussPost(DiscussPost discussPost) {
+        if (discussPost == null)
+            throw new IllegalArgumentException("参数不能为空！");
+        //转义HTML标签
+        discussPost.setTitle(HtmlUtils.htmlEscape(discussPost.getTitle()));
+        discussPost.setContent(HtmlUtils.htmlEscape(discussPost.getContent()));
+        //过滤敏感词
+        discussPost.setTitle(sensitiveWordFilterUtil.replaceSensitiveWord(discussPost.getTitle()));
+        discussPost.setContent(sensitiveWordFilterUtil.replaceSensitiveWord(discussPost.getContent()));
+        return discussPostMapper.insertDiscussPost(discussPost);
+    }
+
+    public DiscussPost findDiscussPostById(int id){
+        return discussPostMapper.selectDiscussPostById(id);
     }
 }
