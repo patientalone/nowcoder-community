@@ -18,10 +18,10 @@ import java.util.Date;
 public class LoginTicketInterceptor implements HandlerInterceptor {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    HostHolder hostHolder;
+    private HostHolder hostHolder;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

@@ -21,4 +21,11 @@ public interface CommunityConstant {
      *记住状态下登陆超时时间
      */
     int REMEMBER_EXPRIEDSECOND=3600*24*100;
+
+    /**
+     * 帖子类型
+     */
+    int ENTITY_TYPE_POST=1;
+
+    int ENTITY_TYPE_COMMENT=2;
 }

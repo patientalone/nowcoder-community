@@ -1,6 +1,6 @@
 package com.nowcoder.community;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.BeansException;
 import org.springframework.boot.test.context.SpringBootTest;
